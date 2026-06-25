@@ -9,4 +9,19 @@ print("--- Step 1: Loading Dataset ---")
 
 df = pd.read_csv("Delhi_Heat_Dataset_50000.csv")
 
-print(f"Dataset loaded with {df.shape[0]} rows and {df.shape[1]} columns.\n")
+
+# Cleaning the dataset
+
+print("--- Step 2: Cleaning Data ---")
+df.drop_duplicates(inplace=True)
+df.dropna(axis=1, how='all', inplace=True)
+df.dropna(subset=['LST'], inplace=True)
+
+numeric_cols = df.select_dtypes(include='number').columns
+df[numeric_cols] = df[numeric_cols].fillna(df[numeric_cols].median())
+
+# Print the dimensions of the table (Rows, Columns)
+# print("Cleaned data shape:", df.shape)
+
+# print("\n--- Cleaned Data Summary ---")
+# df.info()
